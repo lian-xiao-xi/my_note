@@ -1,14 +1,6 @@
-# 各类常用命令总结
+# Git
 
-## Node.js 命令
-
-- 查找全局 npm 包 `npm ls -g --depth 0`
-- 升级 npm `npm install -g npm`
-- 查看全局包的安装路径 `npm root -g`
-- 查看哪些包有更新 `npm -g outdated`
-- 升级某个全局 npm 包 `npm -g update <name>`
-
-## git 命令
+## Git 常用命令
 
 - 查看提交历史（不能查看被删除的commit记录） `git log`
 - 查看所有操作记录（包括被删除的 commit 记录和 reset 的操作） `git reflog`
