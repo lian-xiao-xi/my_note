@@ -59,3 +59,4 @@ Repository 接口 是 Spring Data 存储库抽象中的中央接口，是 Spring
 - QuerydslJpaPredicateExecutor (QueryDslJpaRepository 已不被推荐使用)
 
 TODO：看到了原文的 "你会发现在进行 Update、Delete、Insert 等操作之前" 这里
+
