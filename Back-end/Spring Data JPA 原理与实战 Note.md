@@ -56,7 +56,22 @@ Repository 接口 是 Spring Data 存储库抽象中的中央接口，是 Spring
 #### 两个重点 Repository 实现类
 
 - SimpleJpaRepository 上述 7 个重要接口（除 QueryDslPredicateExecutor 外）的默认实现类；
-- QuerydslJpaPredicateExecutor (QueryDslJpaRepository 已不被推荐使用)
+- QuerydslJpaPredicateExecutor QueryDsl 的实现类 (QueryDslJpaRepository 已不被推荐使用)；
 
-TODO：看到了原文的 "你会发现在进行 Update、Delete、Insert 等操作之前" 这里
+#### CrudRepository save 方法
 
+关于 CrudRepository 接口中 save 方法源码实现中的 `entityInformation.isNew(entity)` 简单说明一下，如果方法参数(entity)里没有 ID，则直接 insert；反之，则会触发 select 查询，去看一下数据库里面是否存在此记录，若存在，则 update，否则 insert。
+
+TODO: delete 方法
+
+### SimpleJpaRepository 实现类
+
+有一个这样的 Demo:
+
+```java
+public interface UserRepository extends JpaRepository<User,Long> {}
+```
+
+UserRepository 的实现类是 Spring 启动的时利用 Java 动态代理机制帮我们生成的实现类，而真正的实现类就是  SimpleJpaRepository。这一点可以通过在 RepositoryFactorySupport 设置一个断点来验证，如下图。
+
+![Repository 动态代理](./images/RepositoryFactorySupport_debug.png)
