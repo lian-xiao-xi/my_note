@@ -62,7 +62,9 @@ Repository 接口 是 Spring Data 存储库抽象中的中央接口，是 Spring
 
 关于 CrudRepository 接口中 save 方法源码实现中的 `entityInformation.isNew(entity)` 简单说明一下，如果方法参数(entity)里没有 ID，则直接 insert；反之，则会触发 select 查询，去看一下数据库里面是否存在此记录，若存在，则 update，否则 insert。
 
-TODO: delete 方法
+#### CrudRepository delete 方法
+
+TODO
 
 ### SimpleJpaRepository 实现类
 
@@ -75,3 +77,30 @@ public interface UserRepository extends JpaRepository<User,Long> {}
 UserRepository 的实现类是 Spring 启动的时利用 Java 动态代理机制帮我们生成的实现类，而真正的实现类就是  SimpleJpaRepository。这一点可以通过在 RepositoryFactorySupport 设置一个断点来验证，如下图。
 
 ![Repository 动态代理](./images/RepositoryFactorySupport_debug.png)
+
+## Defining Query Methods 的命名语法与参数
+
+Spring Data JPA 的最大特色是利用方法名定义查询方法（Defining Query Methods）来做 CRUD 操作。
+
+### DQM 的基本使用
+
+自定义一个 MyRepository，然后 extends Repository 接口，就可以实现 Defining Query Methods 的功能。
+
+```java
+public interface UserRepository extends Repository<User, Long> {
+     User findByEmailAddress(String emailAddress);
+}
+```
+
+#### 选择性暴露方法
+
+有时如果不想暴露 CrudRepository 里面的所有方法，可以继承其他 Repository 的子接口，或者自定义子接口，选择性地暴露 SimpleJpaRepository 里面已经实现的基础公用方法。
+
+```java
+// 只暴漏 findOne 和 save 方法
+@NoRepositoryBean
+public interface MyBaseRepository<T, ID extends Serializable> extends Repository<T, ID> {
+    T findOne(ID id);
+    T save(T entity);
+}
+```
