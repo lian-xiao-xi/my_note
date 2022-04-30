@@ -5,7 +5,7 @@
 ```javascript
 const str = '\uD83D\uDE80'; // "🚀"
 str.length // 2
-[...'x\uD83D\uDE80y'].length // 1
+[...'\uD83D\uDE80'].length // 1
 ```
 
 上面代码的第一种写法，JavaScript 会将四个字节的 Unicode 字符，识别为 2 个字符，而采用扩展运算符就能够正确识别四个字节的 Unicode 字符。
